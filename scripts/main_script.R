@@ -2,7 +2,7 @@
 # Aim: Allometric analysis of razor clams - DEFRA project
 
 # REad in data
-source("./scripts/read_data.r")
+file.edit("./scripts/read_data.r")
 
 # Plot histograms
 source("./scripts/plot_size_frequency.R", echo = TRUE)

@@ -24,8 +24,8 @@ scatter_plot <- ggplot(data = filtered_data, aes(x = shell_length, y = weight_g)
   theme_bw() +  # Apply a black and white theme
   xlab("Shell length (mm)") +  # Label x-axis
   ylab("Weight (g)") +  # Label y-axis
-  ggtitle("Weight vs Shell Length") 
-+ theme(text = element_text(size = 10)) # Add a title to the plot
+  ggtitle("Weight vs Shell Length") +
+ theme(text = element_text(size = 10)) # Add a title to the plot
 
 # Print the scatter plot
 print(scatter_plot)

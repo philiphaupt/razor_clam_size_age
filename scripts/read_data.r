@@ -15,9 +15,13 @@ size_age_data <- read_xlsx("C:/Users/philip.haupt/OneDrive - Kent & Essex Inshor
                            skip = 2)   %>% 
   filter(`type survey or fishing` == "survey")
 
+size_age_data$weight_g <- as.double(size_age_data$weight_g)
+
 
 # Filter out rows with NA or 0 values in age_years or shell_length
 filtered_data <- size_age_data %>%
   filter(!is.na(age_years), age_years != 0,
          !is.na(shell_length), shell_length != 0,
          !is.na(weight_g), weight_g != 0)
+
+
