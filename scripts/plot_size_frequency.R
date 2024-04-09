@@ -4,48 +4,88 @@ library(tidyverse)
 
 mcrs = 100
 
-# Calculate the mean shell length
-mean_shell_length <- size_age_data %>%
-  filter(shell_length > 0) %>%
-  summarise(mean_length = mean(shell_length, na.rm = TRUE),
-            #modal_length = mode(shell_length, na.rm = TRUE)
-            ) %>%
-  pull(mean_length)
+# Discretize age_years into groups
+size_age_data_filtered <- size_age_data %>%
+  filter(shell_length > 0, !is.na(age_years)) %>% 
+  mutate(age_group = cut(age_years, breaks = 6))  # Adjust the number of breaks as needed
 
-# Create the histogram plot
-size_dist_plot <- ggplot(data = size_age_data %>% filter(shell_length> 0), 
-                         aes(x = shell_length)) +
-  geom_density(col = "black") +
+# Modify the levels of age_group
+size_age_data_filtered$age_group <- factor(size_age_data_filtered$age_group,
+                                  levels = c("(2.49,3.5]", "(3.5,4.5]", "(4.5,5.5]",
+                                             "(5.5,6.5]", "(6.5,7.5]", "(7.5,8.51]"),
+                                  labels = c("2 - 3 year class", "3 - 4 year class",
+                                             "4 - 5 year class", "5 - 6 year class",
+                                             "6 - 7 year class", "7 - 8 year class"))
+
+
+# Calculate mean shell length by age_group
+mean_shell_length_by_group <- size_age_data_filtered %>%
+  filter(shell_length > 0, !is.na(age_years)) %>% 
+  group_by(age_group) %>%
+  summarise(mean_shell_length = mean(shell_length, na.rm = TRUE))
+
+
+# Create the histogram plot with colored fill
+size_dist_plot <- ggplot(data = size_age_data_filtered, 
+                         aes(x = shell_length, fill = age_group)
+                         ) +
   geom_histogram(
-    binwidth = 5,
+    binwidth = 6,
     col = "black",
-    fill = "cornflowerblue",
     alpha = 0.9
   ) +
+  scale_fill_discrete(name = "Age Year Class") +  # Customize legend title and fill colors
   theme_bw() +
-  ylab("Number of razor clams") + #"Density")+#
-  xlab("Shell length length (mm)") +
-  # geom_vline(aes(xintercept = 70),color = "#FC4E07",
-  #            linetype = "dashed",
-  #            linewidth = 1)+
-   geom_vline(
-     aes(
-       xintercept = mean_shell_length),
-       color = "black",
-       linetype = "dashed",
-       size = 1
-     ) +
+  ylab("Number of razor clams") +
+  xlab("Shell length (mm)") +
   geom_vline(
-    aes(
-      xintercept = mcrs),
-    color = "#FC4E07",
-    #linetype = "dashed",
+    data = mean_shell_length_by_group,
+    aes(xintercept = mean_shell_length),
+    
+    color = "black",  # Set color of dashed lines
+    linetype = "dashed",
     size = 1
   ) +
-  theme(text = element_text(size = 10))+
-  facet_wrap(~age_years)
-size_dist_plot
+  geom_vline(
+    aes(xintercept = mcrs),
+    color = "#FC4E07",
+    size = 1
+  ) +
+  #scale_color_manual(values = unique(size_age_data_filtered$age_group)) +  # Assign colors for dashed lines
+  theme(text = element_text(size = 10)) +
+  facet_wrap(~age_group, ncol = 1)  # Facet by modified age_group labels
 
-ggsave("./outputs/razor_survey_size_distribution_by_age.png", size_dist_plot, width = 16.5, height = 11, units = "cm")
+# Print the plot
+print(size_dist_plot)
 
-# oyster_size %>% dplyr::filter(common_name == "native oyster", year_surveyed %in% c(2022, 2023)) %>% arrange(desc(length_mm))
+# Save the plot
+ggsave("./outputs/age_group_histogram_with_modified_labels.png", size_dist_plot, width = 16.5, height = 16.5, units = "cm")
+
+#
+# Create the histogram plot with colored fill
+size_dist_plot <- ggplot(data = size_age_data_filtered, 
+                         aes(x = shell_length, fill = age_group)
+) +
+  geom_histogram(
+    binwidth = 6,
+    col = "black",
+    alpha = 0.9
+  ) +
+  scale_fill_discrete(name = "Age Year Class") +  # Customize legend title and fill colors
+  theme_bw() +
+  ylab("Number of razor clams") +
+  xlab("Shell length (mm)") +
+  geom_vline(
+    data = mean_shell_length_by_group,
+    aes(xintercept = mean_shell_length, color = "Mean Shell Length"),  # Define color aesthetic
+    linetype = "dashed",
+    size = 1
+  ) +
+  geom_vline(
+    aes(xintercept = mcrs, color = "Minimum landing size (100 mm)"),  # Define color aesthetic
+    linetype = "solid",
+    size = 1
+  ) +
+  scale_color_manual(name = "Legend", values = c("Mean Shell Length" = "black", "Minimum landing size (100 mm)" = "#FC4E07")) +  # Assign colors and legend labels
+  theme(text = element_text(size = 10)) +
+  facet_wrap(~age_group, ncol = 1)  # Facet by modified age_group labels
