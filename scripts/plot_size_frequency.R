@@ -25,7 +25,10 @@ mean_shell_length_by_group <- size_age_data_filtered %>%
   summarise(mean_shell_length = mean(shell_length, na.rm = TRUE))
 
 
-# Create the histogram plot with colored fill
+
+
+
+# Create the SHELL LENGTH histogram plot by AGE CLASS with colored fill
 size_dist_plot <- ggplot(data = size_age_data_filtered, 
                          aes(x = shell_length, fill = age_group)
                          ) +
@@ -63,29 +66,68 @@ ggsave("./outputs/age_group_histogram_with_modified_labels.png", size_dist_plot,
 
 #
 # Create the histogram plot with colored fill
-size_dist_plot <- ggplot(data = size_age_data_filtered, 
-                         aes(x = shell_length, fill = age_group)
+# size_dist_plot <- ggplot(data = size_age_data_filtered, 
+#                          aes(x = shell_length, fill = age_group)
+# ) +
+#   geom_histogram(
+#     binwidth = 6,
+#     col = "black",
+#     alpha = 0.9
+#   ) +
+#   scale_fill_discrete(name = "Age Year Class") +  # Customize legend title and fill colors
+#   theme_bw() +
+#   ylab("Number of razor clams") +
+#   xlab("Shell length (mm)") +
+#   geom_vline(
+#     data = mean_shell_length_by_group,
+#     aes(xintercept = mean_shell_length, color = "Mean Shell Length"),  # Define color aesthetic
+#     linetype = "dashed",
+#     size = 1
+#   ) +
+#   geom_vline(
+#     aes(xintercept = mcrs, color = "Minimum landing size (100 mm)"),  # Define color aesthetic
+#     linetype = "solid",
+#     size = 1
+#   ) +
+#   scale_color_manual(name = "Legend", values = c("Mean Shell Length" = "black", "Minimum landing size (100 mm)" = "#FC4E07")) +  # Assign colors and legend labels
+#   theme(text = element_text(size = 10)) +
+#   facet_wrap(~age_group, ncol = 1)  # Facet by modified age_group labels
+# print(size_dist_plot)
+
+
+#-----------------------------------
+# SHELL LENGTH HISTOGRAM
+shell_length_histo <- ggplot(data = size_age_data_filtered, 
+                         aes(x = shell_length
+                             )
 ) +
   geom_histogram(
     binwidth = 6,
     col = "black",
+    fill = "cornflowerblue",
     alpha = 0.9
   ) +
-  scale_fill_discrete(name = "Age Year Class") +  # Customize legend title and fill colors
+  #scale_fill_discrete(name = "Age Year Class") +  # Customize legend title and fill colors
   theme_bw() +
   ylab("Number of razor clams") +
   xlab("Shell length (mm)") +
+  # geom_vline(
+  #   data = mean_shell_length_by_group,
+  #   aes(xintercept = mean_shell_length),
+  #   
+  #   color = "black",  # Set color of dashed lines
+  #   linetype = "dashed",
+  #   size = 1
+  # ) +
   geom_vline(
-    data = mean_shell_length_by_group,
-    aes(xintercept = mean_shell_length, color = "Mean Shell Length"),  # Define color aesthetic
-    linetype = "dashed",
+    aes(xintercept = mcrs),
+    color = "#FC4E07",
     size = 1
   ) +
-  geom_vline(
-    aes(xintercept = mcrs, color = "Minimum landing size (100 mm)"),  # Define color aesthetic
-    linetype = "solid",
-    size = 1
-  ) +
-  scale_color_manual(name = "Legend", values = c("Mean Shell Length" = "black", "Minimum landing size (100 mm)" = "#FC4E07")) +  # Assign colors and legend labels
-  theme(text = element_text(size = 10)) +
-  facet_wrap(~age_group, ncol = 1)  # Facet by modified age_group labels
+  theme(text = element_text(size = 10))
+
+
+shell_length_histo
+# Save the plot
+ggsave("./outputs/shell_length_histogram.png", size_dist_plot, width = 16.5, height = 16.5, units = "cm")
+getwd()

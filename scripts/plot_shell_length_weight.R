@@ -15,7 +15,7 @@ scatter_plot <- ggplot(data = filtered_data, aes(x = shell_length, y = age_years
 # Print the scatter plot
 print(scatter_plot)
 #
-ggsave("./outputs/age_vs_shell_length_scatter.png", scatter_plot, width = 16.5, height = 11, units = "cm")
+#ggsave("./outputs/age_vs_shell_length_scatter.png", scatter_plot, width = 16.5, height = 11, units = "cm")
 
 
 

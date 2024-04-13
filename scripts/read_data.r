@@ -5,10 +5,10 @@ library(readxl)
 library(Microsoft365R)
 #dat <- readxl::read_xlsx("https://keifca-my.sharepoint.com/:x:/r/personal/philip_haupt_kentandessex-ifca_gov_uk/_layouts/15/Doc.aspx?sourcedoc=%7Baa4ac5b9-eff7-43a9-af60-3a09d6ea2db8%7D&action=edit&wdinitialsession=2862a3b3-32cd-3a49-58fb-617fce9ab3dd&wdrldsc=3&wdrldc=1&wdrldr=ContinueInExcel", sheet = "Survey_data_entry")
 #od <- get_personal_onedrive()
-od <- get_business_onedrive()
-od$list_items("Documents/SUSTAINABLE FISHERIES/razor_clams/survey_trip_forms_and_data")
-dat_raw <- od$load_dataframe("Documents/SUSTAINABLE FISHERIES/razor_clams/survey_trip_forms_and_data/razor_clam_survey_sheet.xlsx")
-list_sharepoint_sites()
+# od <- get_business_onedrive()
+# od$list_items("Documents/SUSTAINABLE FISHERIES/razor_clams/survey_trip_forms_and_data")
+# dat_raw <- od$load_dataframe("Documents/SUSTAINABLE FISHERIES/razor_clams/survey_trip_forms_and_data/razor_clam_survey_sheet.xlsx")
+# list_sharepoint_sites()
 
 
 od_dir <- "C:/Users/philip.haupt/OneDrive - Kent & Essex Inshore Fisheries and Conservation Authority/Documents/SUSTAINABLE FISHERIES/razor_clams/survey_trip_forms_and_data/"
