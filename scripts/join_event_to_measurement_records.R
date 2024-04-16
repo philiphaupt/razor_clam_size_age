@@ -7,4 +7,4 @@ survey_dat <- filtered_data %>% left_join(survey_data_meta %>%
                             by = c("grid_position", "replicate_number"))
 
 
-rm(filtered_data, mean_shell_length_by_group, size_age_data)
+rm(filtered_data, size_age_data)
