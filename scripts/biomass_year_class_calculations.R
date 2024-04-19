@@ -4,9 +4,9 @@ biomass_dat <- survey_dat %>%
   group_by(grid_position, age_years, shell_length_category) %>% 
   summarise(mean_weight = mean(weight_g, na.rm = TRUE),
             abundance_per_subsample = n()/max(as.numeric(replicate_number)),
-            subsample_area = first(subsample_area),
+            subsample_area_std = first(subsample_area_std),
             std_fct_area = first(stdz_fct_area),
-            density_std = abundance_per_subsample/first(subsample_area)*first(stdz_fct_area))#to make it per meter square)
+            density_std = abundance_per_subsample/first(subsample_area_std)*first(stdz_fct_area))#to make it per meter square)
 
 # 500 cap for density outliers
 biomass_dat_outlier_adapted <- biomass_dat %>%
@@ -16,16 +16,30 @@ biomass_dat_outlier_adapted <- biomass_dat %>%
          biomass_square_meter = density_std*mean_weight, #grams per square meter
          biomass_per_grid_cell = (biomass_square_meter*250000)/1000000) # biomass per 500 * 500 m grid cell.
 
+
+# With fitted GAM
+
+# Fit a GAM with a Gaussian distribution using the filtered data
+gam_model <- gam(biomass_per_grid_cell ~ s(abundance_grid_cell), data = biomass_dat_outlier_adapted, family = gaussian())
+
+# Generate predicted values from the GAM model using the filtered data
+biomass_dat_outlier_adapted$predicted_biomass <- predict(gam_model, newdata = biomass_dat_outlier_adapted)
+
+#
 #plot
 
-grid_cell_biomass_abundance_plot <- ggplot(biomass_dat_outlier_adapted, aes(x = biomass_per_grid_cell, y = abundance_grid_cell)) +
+grid_cell_biomass_abundance_plot <- ggplot(biomass_dat_outlier_adapted, aes(x = abundance_grid_cell, y = biomass_per_grid_cell )) +
   geom_point(aes(fill = as.factor(shell_length_category), col = as.factor(shell_length_category)), pch = 21, cex = 3.5) +
   scale_fill_manual(values = c("skyblue", "salmon" )) +
   scale_color_manual(values = c("skyblue", "salmon")) +
   labs(x = "Biomass (tonnes) per grid cell", y = "Abundance in grid cell (Millions)", fill = "Shell Length with reference to MCRS", col = "Shell Length with reference to MCRS") +
   ggtitle("Biomass and Abundance in 28 grid cells for over and under 100 mm razor clams") +
   theme_bw() +
-  guides(fill = guide_legend(title = "Shell Length with\nreference to MCRS"), col = guide_legend(title = "Shell Length with\nreference to MCRS"))
+  guides(fill = guide_legend(title = "Shell Length with\nreference to MCRS"), col = guide_legend(title = "Shell Length with\nreference to MCRS"))+
+  geom_line(aes(y = predicted_biomass), color = "black", linewidth = 0.63, alpha = 0.3) 
+
+#------------------
+
 
 print(grid_cell_biomass_abundance_plot)
 
@@ -50,6 +64,9 @@ biomass_dat_outlier_adapted %>% ungroup() %>% group_by(shell_length_category) %>
 biomass_area_plot <- ggplot(biomass_dat_outlier_adapted, aes(x = biomass_per_grid_cell, y = shell_length_category)) +
   geom_area(aes(fill = shell_length_category)) +
   scale_fill_manual(values = c("skyblue", "salmon")) +
-  labs(x = "Biomass (tonnes) per grid cell", y = "Shell Length with reference to MCRS", fill = "Shell Length with reference to MCRS") +
+  labs(x = "Biomass (tonnes) per grid cell", y = "Shell Length with reference to MCRS", fill = "Shell Length with\nreference to MCRS") +
   theme_bw()
 biomass_area_plot
+# save
+ggsave("./outputs/biomass_area_plot.png", biomass_area_plot, width = 16.5, height = 16.5, units = "cm")
+
