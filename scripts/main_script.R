@@ -11,10 +11,14 @@ source("./scripts/join_event_to_measurement_records.R", echo = TRUE)
 source("./scripts/standardise_subsample_time.R", echo = FALSE)
 
 # Plot histograms
-source("./scripts/plot_size_frequency.R", echo = TRUE)
+file.edit("./scripts/plot_size_frequency.R", echo = TRUE)
 
 # plot size weight relationship
-file.edit("./scripts/plot_shell_length_weight.R", echo = TRUE)
+#file.edit("./scripts/shell_length_weight_glm.R", echo = TRUE)
+
+file.edit("./scripts/shell_length_v_weight_vBertalanffy.R", echo = TRUE)
+
+file.edit("./scripts/shell_length_age.R", echo = TRUE)
 
 # Density shell length
 source("./scripts/density_standardised.R", echo = TRUE)
@@ -29,7 +33,7 @@ source("scripts/read_spatial_data.R", echo = FALSE)
 file.edit("./scripts/join_survey_to_spatial.R")
 
 # Shell dimensions shell HEIGHT vs shell length
-source("./scripts/shell_length_v_shell_height.R", echo = TRUE)
+file.edit("./scripts/shell_length_v_shell_height.R", echo = TRUE)
 
 # Shell dimensions shell WIDTH (across bivalves) vs shell length
 file.edit("./scripts/shell_length_v_shell_width.R", echo = TRUE)

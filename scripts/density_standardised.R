@@ -55,7 +55,7 @@ std_dat_summary$predicted_density <- predict(gam_model, newdata = std_dat_summar
 
 # Plot the data and the fitted curve
 density_plot_shell_length_gam <- ggplot(std_dat_summary, aes(x = mean_shell_length, y = density_std)) +
-  geom_point(aes(),pch = 21, cex = 2.5, col = "goldenrod2", fill = "goldenrod2", alpha = 0.65) +
+  geom_point(aes(),pch = 21, cex = 2.5, col = "goldenrod1", fill = "goldenrod1", alpha = 0.65) +
   geom_line(aes(y = predicted_density), color = "cornflowerblue", linewidth = 0.63) +
   labs(x = "Shell Length (mm)", y = "Density N animals/square meter") +
   ggtitle("Density per Mean Shell Length (GAM with Gaussian Distribution)") +
@@ -65,7 +65,7 @@ density_plot_shell_length_gam <- ggplot(std_dat_summary, aes(x = mean_shell_leng
 print(density_plot_shell_length_gam)
 
 # Save the plot
-ggsave("./outputs/density_shell_length_gam_plot.png", density_plot_shell_length_gam, width = 16.5, height = 16.5, units = "cm")
+#ggsave("./outputs/density_shell_length_gam_plot.png", density_plot_shell_length_gam, width = 16.5, height = 16.5, units = "cm")
 
 ## Otuliers need removing:
 # Calculate mean and standard deviation of density_std
@@ -73,7 +73,7 @@ mean_density_std <- mean(std_dat_summary$density_std, na.rm = TRUE)
 sd_density_std <- sd(std_dat_summary$density_std, na.rm = TRUE)
 
 # Define threshold for outliers (e.g., 3 standard deviations away from the mean)
-threshold <- 3
+threshold <- 2
 
 # Filter out rows with density_std values beyond the threshold
 std_dat_summary_filtered <- std_dat_summary %>%
@@ -98,7 +98,7 @@ print(density_plot_shell_length_filtered)
 
 
 #------------------
-# With fitted GAM
+# With fitted GAM - START HERE HTIS NEEDS TWEAKING!
 
 # Fit a GAM with a Gaussian distribution using the filtered data
 gam_model <- gam(density_adj ~ s(mean_shell_length), data = std_dat_summary_outlier_adj, family = gaussian())

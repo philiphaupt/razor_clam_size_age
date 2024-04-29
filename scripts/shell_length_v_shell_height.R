@@ -12,7 +12,8 @@ survey_dat %>%
   ggplot(aes(x = shell_length, y = shell_height, col = shell_length_category))+
   geom_point()+
   scale_color_manual(values = c("skyblue", "salmon"))+
-  theme_bw()
+  theme_bw()+
+  labs(col = "Shell Length Category")  # Modify legend title
   
 #=========
 # Plot with GLM fit
@@ -80,3 +81,29 @@ print(AIC_value)
 
 # To assess the goodness of fit, you can also check the summary of the model
 summary(glm_model)
+
+
+#-------------------
+#Find 100 m mshell length from predicted values.
+# Fit a GLM
+glm_model <- glm(shell_height ~ shell_length, data = survey_dat, family = gaussian())
+
+# Extract predicted values from the GLM model
+#predicted_values <- predict(glm_model, newdata = survey_dat)
+
+# Predict shell height for a given shell length (e.g., 100 mm)
+predicted_height <- predict(glm_model, newdata = data.frame(shell_length = 100))
+
+# Print predicted height
+print(predicted_height)
+
+
+# what proportion of records (razor clams) would have a shell dimension with a shell_height <17 mm and at the same time a shell_length > 100mm?
+# Subset the data
+subset_data <- subset(survey_dat, shell_height < 17 & shell_length > 100)
+
+# Calculate the proportion of records in the subset
+proportion <- nrow(subset_data) / nrow(survey_dat)
+
+# Print the proportion
+print(proportion)
