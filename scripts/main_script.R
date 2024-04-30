@@ -1,5 +1,5 @@
 # Main script
-# Aim: Allometric analysis of razor clams - DEFRA project
+# Aim: Allometric and Isometric analysis of razor clams - DEFRA project
 
 # Read in data
 source("./scripts/read_data.r")
@@ -11,20 +11,20 @@ source("./scripts/join_event_to_measurement_records.R", echo = TRUE)
 source("./scripts/standardise_subsample_time.R", echo = FALSE)
 
 # Plot histograms
-file.edit("./scripts/plot_size_frequency.R", echo = TRUE)
+source("./scripts/plot_size_frequency.R", echo = TRUE)
 
 # plot size weight relationship
 #file.edit("./scripts/shell_length_weight_glm.R", echo = TRUE)
 
-file.edit("./scripts/shell_length_v_weight_vBertalanffy.R", echo = TRUE)
+source("./scripts/shell_length_v_weight_vBertalanffy.R", echo = TRUE)
 
-file.edit("./scripts/shell_length_age.R", echo = TRUE)
+source("./scripts/shell_length_age.R", echo = TRUE)
 
 # Density shell length
 source("./scripts/density_standardised.R", echo = TRUE)
 
 # Biomass calculations per grid cell grouped within age class, and over and under 100mm . Like cockle biomass calculations
-file.edit("./scripts/biomass_year_class_calculations.R", echo = TRUE)
+source("./scripts/biomass_year_class_calculations.R", echo = TRUE)
 
 # spatial data read
 source("scripts/read_spatial_data.R", echo = FALSE)

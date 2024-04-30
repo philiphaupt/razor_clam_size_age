@@ -32,7 +32,7 @@ survey_dat$predicted_weight <- a * survey_dat$shell_length^b
 # Scatter plot with the fitted line
 scatter_plot_with_fit <- ggplot(survey_dat, aes(x = shell_length, y = weight_g, col = shell_length_category)) +
   geom_point(size =1.75, alpha = 0.6) +  # Add points
-  geom_line(aes(y = predicted_weight), color = "grey44", linetype = "dashed", size = 1.1, alpha = 0.5) +  # Add fitted line
+  geom_line(aes(y = predicted_weight), color = "grey44", linetype = "dashed", linewidth = 1.1, alpha = 0.5) +  # Add fitted line
   theme_bw() +  # Apply a black and white theme
   scale_color_manual(values = c("skyblue", "salmon"), name = "Shell Length with\nreference to MCRS")+
   xlab("Shell length (mm)") +  # Label x-axis
@@ -55,10 +55,6 @@ mean_weight_by_category <- survey_dat %>%
     mean_weight = mean(weight_g),
     sd_weight = sd(weight_g)  # Calculate standard deviation
   )
-
-# Print the result
-print(mean_weight_by_category)
-
 
 # Print the mean weight for each category
 print(mean_weight_by_category)
