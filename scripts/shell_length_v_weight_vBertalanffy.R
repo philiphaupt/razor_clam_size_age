@@ -38,7 +38,7 @@ scatter_plot_with_fit <- ggplot(survey_dat, aes(x = shell_length, y = weight_g, 
   xlab("Shell length (mm)") +  # Label x-axis
   ylab("Weight (g)") +  # Label y-axis
   #labs(col = "Shell Length Category")+  # Modify legend title
-  ggtitle("Weight vs Shell Length with Fitted Line from W = aL^b")  # Add a title
+  ggtitle(paste0("Weight vs Shell Length with Fitted Line from W = ",round(a,5),"L^",round(b,2)))  # Add a title
 
 # Print the scatter plot with fitted line
 print(scatter_plot_with_fit)
