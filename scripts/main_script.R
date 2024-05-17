@@ -30,10 +30,10 @@ source("./scripts/biomass_year_class_calculations.R", echo = TRUE)
 source("scripts/read_spatial_data.R", echo = FALSE)
 
 # join survey results to spatial data
-file.edit("./scripts/join_survey_to_spatial.R")
+source("./scripts/join_survey_to_spatial.R", echo =TRUE)
 
 # Shell dimensions shell HEIGHT vs shell length
-file.edit("./scripts/shell_length_v_shell_height.R", echo = TRUE)
+source("./scripts/shell_length_v_shell_height.R", echo = TRUE)
 
 # Shell dimensions shell WIDTH (across bivalves) vs shell length
-file.edit("./scripts/shell_length_v_shell_width.R", echo = TRUE)
+source("./scripts/shell_length_v_shell_width.R", echo = TRUE)
