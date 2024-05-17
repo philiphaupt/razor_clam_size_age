@@ -24,7 +24,7 @@ survey_dat %>%
   ggplot(aes(x = shell_height, y = shell_length, col = shell_length_category)) +
   geom_point() +
   #geom_line(aes(y = fitted_height), linetype = "dashed", linewidth = 1.3) +
-  scale_color_manual(values = c( "salmon", "skyblue")) +
+  scale_color_manual(values = c( "skyblue", "salmon")) +
   theme_bw()
 
 # NOw fit a line to establish relationship

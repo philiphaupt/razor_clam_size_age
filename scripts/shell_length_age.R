@@ -36,3 +36,4 @@ print(scatter_plot_with_fit)
 
 # Save the plot
 ggsave("./outputs/age_vs_shell_length_with_glm_fit.png", scatter_plot_with_fit, width = 16, height = 16, units = "cm")
+

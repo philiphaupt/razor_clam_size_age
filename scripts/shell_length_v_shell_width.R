@@ -63,7 +63,7 @@ shell_length_v_width <- survey_dat %>%
   ggplot(aes(y = shell_length, x = shell_width))+
   geom_smooth(method = "glm", method.args = list(family = gaussian),col = "grey53", se = TRUE, size = 1.5, alpha = 0.5) +
   geom_point(aes(col = shell_length_category), size =1.75, alpha = 0.6) +
-  scale_color_manual(values = c("salmon", "skyblue3"), name = "Shell Length with\nreference to MCRS") +
+  scale_color_manual(values = c( "skyblue3", "salmon"), name = "Shell Length with\nreference to MCRS") +
   theme_bw()+
   labs(y = "Shell length (mm)", x = "Shell width (mm)")
 #ggtitle("Shell Length relationship with shell width (GLM with Gaussian Distribution)")
